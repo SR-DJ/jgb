@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>石火电竞价格表 - 优化版</title>
+
+  <!-- 引入更具科技感的字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== 1. 根变量与全局样式优化 ===== */
+    :root{
+      --red-dark: #8b3a3a;
+      --red-bright: #a33f46;
+      --red-glow: #ff4141; /* 用于发光的亮红色 */
+      --black-rich: #1a1a1a; /* 代替纯黑 ，更有层次 */
+      --card-bg: rgba(34, 34, 34, 0.75); /* 卡片背景，半透明 */
+      --ink-light: #f0f0f0;
+      --ink-dark: #333;
+      --border-color: rgba(255, 255, 255, 0.15);
+      
+      --font-main: 'Orbitron', '思源黑体', sans-serif; /* 标题/关键信息字体 */
+      --font-body: 'Arial', 'Helvetica Neue', sans-serif; /* 正文字体 */
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+      font-family: var(--font-body);
+      /* 使用更深邃的背景图，并确保覆盖整个视口 */
+      background: var(--black-rich) url('bg3.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 0; /* 为页面增加呼吸空间 */
+      color: var(--ink-light);
+    }
+
+    /* 移除 header, 使用更简洁的图片替代 */
+    
+    main{
+      width: 100%;
+      padding: 0 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .wrap{
+      width: min(600px, 94vw); /* 稍微加宽以适应新间距 */
+      display: flex;
+      flex-direction: column;
+      gap: 24px; /* 使用 gap 统一管理卡片间距 */
+    }
+
+    /* ===== 2. 卡片设计增强 (毛玻璃效果) ===== */
+    .card{
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px; /* 增加圆角，更现代 */
+      box-shadow: 0 12px 32px rgba(0,0,0,.35);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .bar{
+      height: 32px;
+      background: linear-gradient(135deg, var(--red-bright), var(--red-dark));
+      border-bottom: 1px solid var(--border-color);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-main);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-shadow: 0 2px 8px rgba(0,0,0,.5);
+    }
+
+    .card .body{
+      padding: 16px;
+    }
+
+    /* ===== 3. 图标网格与图标美化 ===== */
+    .icon-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* 自适应列数 */
+      gap: 16px 12px;
+    }
+
+    .icon-btn{
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .icon{
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 14px;
+      background: #fff;
+      /* 增加内阴影和外阴影，提升质感 */
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,.25);
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+      /* 核心动画效果 */
+      transition: transform .2s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                  box-shadow .2s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                  filter .2s ease;
+    }
+
+    .icon-img {
+      width: 85%;
+      height: 85%;
+      object-fit: contain;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .icon.no-image {
+      background: linear-gradient(135deg, var(--red-dark), var(--red-bright));
+    }
+
+    /* 酷炫的悬停效果 */
+    .icon-btn:hover .icon{
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 12px 24px rgba(0,0,0,.3);
+      filter: brightness(1.1) drop-shadow(0 0 6px var(--red-glow));
+    }
+    .icon-btn:active .icon{
+      transform: translateY(0px) scale(.98);
+      transition-duration: .05s;
+    }
+
+    .icon-label{
+      font-size: 12px;
+      color: var(--ink-light);
+      text-align: center;
+      line-height: 1.2;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
+    /* ===== 4. 其他组件样式优化 ===== */
+    .notice{
+      font-size: 13px;
+      color: var(--ink-light);
+      margin: 0;
+      line-height: 1.7;
+      background: rgba(0,0,0,.2);
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .carousel{
+      position: relative;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+    }
+    .carousel-slide{ display: block; width: 100%; aspect-ratio: 16 / 9; }
+    .carousel-slide img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+    .carousel-btn{
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.35);
+      background: rgba(0,0,0,.35); color: #fff;
+      font-size: 24px; line-height: 38px; text-align: center;
+      cursor: pointer; user-select: none; backdrop-filter: blur(6px);
+      transition: background-color 0.2s ease;
+    }
+    .carousel-btn:hover{ background: rgba(0,0,0,.6); }
+    .carousel-btn.prev{ left: 12px; }
+    .carousel-btn.next{ right: 12px; }
+    .carousel-dots{
+      position: absolute; left: 0; right: 0; bottom: 12px;
+      display: flex; justify-content: center; gap: 8px;
+    }
+    .carousel-dot{
+      width: 8px; height: 8px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.55);
+      background: rgba(255,255,255,.20); cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .carousel-dot.active{ background: #fff; }
+
+    footer{
+      text-align: center;
+      margin-top: 30px;
+      font-size: 12px;
+      color: #888;
+      font-family: var(--font-body);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 页面主标题图 -->
+  <img src="bt1.jpg" style="width: min(600px, 94vw); height: auto; display: block; margin: 0 auto 24px auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.3);" alt="石火电竞价格表">
+
+  <main>
+    <div class="wrap">
+
+      <section class="card">
+        <div class="bar">点单须知</div>
+        <div class="body">
+          <p class="notice">
+            欢迎光临石火电竞！  
+
+            1. 请通过点击下方图标查看具体价格。  
+
+            2. 下单请联系客服，提供项目名称即可。  
+
+            3. 所有项目均由资深玩家提供服务，保证质量。
+          </p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="bar">新客体验单</div>
+        <div class="body">
+          <!-- 内容可在此填充 -->
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="bar">三角洲端游</div>
+        <div class="body">
+          <div class="icon-grid" id="deltaPcGrid"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="bar">三角洲手游</div>
+        <div class="body">
+          <div class="icon-grid" id="deltaMobileGrid"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="bar">其它游戏</div>
+        <div class="body">
+          <div class="icon-grid" id="otherGameGrid"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="bar">部分价格展示</div>
+        <div class="body">
+          <div class="carousel" id="carousel">
+            <a class="carousel-slide" id="carouselLink" href="#" target="_blank" rel="noopener noreferrer">
+              <img id="carouselImg" src="" alt="轮播图" />
+            </a>
+            <button class="carousel-btn prev" type="button" aria-label="上一张">‹</button>
+            <button class="carousel-btn next" type="button" aria-label="下一张">›</button>
+            <div class="carousel-dots" id="carouselDots"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="bar">文字说明</div>
+        <div class="body">
+          <p style="font-size:13px;color:var(--ink-light);margin:0; line-height: 1.6;">
+            价格表内容会定期更新，请以最新版本为准。如有任何疑问，请随时咨询我们的在线客服。
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  
+  <footer>© 2026 SHIHUO E-SPORTS</footer>
+
+  <script>
+    // 数据配置保持不变
+    const deltaPcItems = [
+      { name:"基础护航", url:"jcdy.html", image:"tb.png" },
+      { name:"石火麻将", url:"mjdy.html", image:"tb.png" },
+      { name:"趣味合集", url:"qwdy.html", image:"tb.png" },
+      { name:"随机bingo", url:"shbg.html", image:"tb.png" },
+      { name:"改名单", url:"shgm.html", image:"tb.png" },
+      { name:"教学单", url:"shjx.html", image:"tb.png" },
+      { name:"陪玩单", url:"shpw.html", image:"tb.png" },
+      { name:"代练单", url:"shdl.html", image:"tb.png" }
+    ];
+    const deltaMobileItems = [
+      { name:"基础护航", url:"jcsy.html", image:"tb.png" },
+      { name:"石火麻将", url:"mjsy.html", image:"tb.png" },
+      { name:"趣味合集", url:"qwsy.html", image:"tb.png" },
+      { name:"随机bingo", url:"shbg_m.html", image:"tb.png" },
+      { name:"改名单", url:"shgm_m.html", image:"tb.png" },
+      { name:"教学单", url:"shjx_m.html", image:"tb.png" },
+      { name:"陪玩单", url:"shpw_m.html", image:"tb.png" },
+      { name:"代练单", url:"shdl_m.html", image:"tb.png" }
+    ];
+    const otherGameItems = [
+      { name:"英雄联盟", url:"lol.html", image:"tb.png" },
+      { name:"王者荣耀", url:"wzry.html", image:"tb.png" },
+      { name:"和平精英", url:"hpjy.html", image:"tb.png" },
+      { name:"永劫无间", url:"yjwj.html", image:"tb.png" }
+    ];
+    const carouselItems = [
+      { image: "banner1.png", link: "#" },
+      { image: "banner2.png", link: "#" }
+    ];
+
+    // JS 逻辑保持不变，但为了完整性，仍包含在此处
+    function renderGrid(container, items) {
+      if(!container) return;
+      container.innerHTML = "";
+      items.forEach(item => {
+        const a = document.createElement("a");
+        a.className = "icon-btn";
+        a.href = item.url || "#";
+        a.target = "_blank"; // 建议在新标签页打开
+
+        const iconDiv = document.createElement("div");
+        iconDiv.className = "icon";
+
+        if(item.image) {
+          const img = document.createElement("img");
+          img.src = item.image;
+          img.className = "icon-img";
+          img.alt = item.name;
+          iconDiv.appendChild(img);
+        } else {
+          iconDiv.classList.add("no-image");
+          iconDiv.innerText = item.name.substring(0, 1);
+        }
+
+        const label = document.createElement("div");
+        label.className = "icon-label";
+        label.innerText = item.name;
+
+        a.appendChild(iconDiv);
+        a.appendChild(label);
+        container.appendChild(a);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderGrid(document.getElementById("deltaPcGrid"), deltaPcItems);
+      renderGrid(document.getElementById("deltaMobileGrid"), deltaMobileItems);
+      renderGrid(document.getElementById("otherGameGrid"), otherGameItems);
+    });
+
+    (function initCarousel(){
+      const imgEl = document.getElementById("carouselImg");
+      const linkEl = document.getElementById("carouselLink");
+      const dotsEl = document.getElementById("carouselDots");
+      const root = document.getElementById("carousel");
+      if(!imgEl || !linkEl || !dotsEl || !root || carouselItems.length === 0) return;
+
+      let index = 0;
+      let timer = null;
+      const intervalMs = 3500;
+
+      dotsEl.innerHTML = "";
+      carouselItems.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "carousel-dot";
+        dot.setAttribute("aria-label", `第${i+1}张`);
+        dot.addEventListener("click", () => go(i, true));
+        dotsEl.appendChild(dot);
+      });
+      const dots = Array.from(dotsEl.children);
+
+      function render(){
+        const item = carouselItems[index];
+        if(!item) return;
+        imgEl.style.opacity = 0;
+        setTimeout(() => {
+          imgEl.src = item.image;
+          linkEl.href = item.link || "#";
+          imgEl.style.opacity = 1;
+        }, 200);
+        dots.forEach((d, i) => d.classList.toggle("active", i === index));
+      }
+
+      function next(manual=false){
+        index = (index + 1) % carouselItems.length;
+        render();
+        if(manual) restart();
+      }
+
+      function prev(manual=false){
+        index = (index - 1 + carouselItems.length) % carouselItems.length;
+        render();
+        if(manual) restart();
+      }
+
+      function go(i, manual=false){
+        if (i === index) return;
+        index = i;
+        render();
+        if(manual) restart();
+      }
+
+      function start(){
+        stop();
+        timer = setInterval(() => next(false), intervalMs);
+      }
+
+      function stop(){
+        if(timer) clearInterval(timer);
+        timer = null;
+      }
+
+      function restart(){
+        stop();
+        start();
+      }
+
+      root.querySelector(".carousel-btn.prev")?.addEventListener("click", () => prev(true));
+      root.querySelector(".carousel-btn.next")?.addEventListener("click", () => next(true));
+      root.addEventListener("mouseenter", stop);
+      root.addEventListener("mouseleave", start);
+
+      let startX = 0;
+      root.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; stop(); }, {passive:true});
+      root.addEventListener("touchend", (e) => {
+        const endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : startX;
+        const dx = endX - startX;
+        if(Math.abs(dx) > 40){
+          dx > 0 ? prev(true) : next(true);
+        } else {
+          start();
+        }
+      }, {passive:true});
+
+      render();
+      start();
+    })();
+  </script>
+</body>
+</html>

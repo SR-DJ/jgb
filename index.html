@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>石火电竞 | 价格表主菜单</title>
+
+  <!-- 引入科技感字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --main-red: #e31d1a;
+      --red-glow: rgba(227, 29, 26, 0.7 );
+      --deep-black: #0a0a0a;
+      --card-gray: #1a1a1a;
+      --text-white: #f0f0f0;
+      --text-dim: #888888;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    @keyframes move-background {
+      from { background-position: 0 0; }
+      to { background-position: 10000px 5000px; }
+    }
+
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--deep-black);
+      background-image: url('bg1.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: var(--text-white);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding-bottom: 50px;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 200%; height: 200%;
+      background-image: radial-gradient(ellipse at center, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 60%),
+                        url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCI+PHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSJ0cmFuc3BhcmVudCI+PC9yZWN0PjxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyOTNSwwLjE1KSI+PC9jaXJjbGU+PC9zdmc+');
+      animation: move-background 700s linear infinite;
+      z-index: -1;
+    }
+
+    header {
+      width: 100%;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.8), rgba(10,10,10,0));
+      padding: 20px 0;
+      text-align: center;
+      margin-bottom: 20px;
+      backdrop-filter: blur(2px);
+    }
+
+    .brand-banner {
+      width: min(560px, 92vw);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .brand-banner img { width: 100%; height: auto; display: block; }
+
+    .quick-nav {
+      width: min(560px, 92vw);
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 5px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .quick-nav::-webkit-scrollbar { display: none; }
+
+    .nav-tag {
+      padding: 8px 20px;
+      background: var(--card-gray);
+      border: 1px solid #333;
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--text-dim);
+      white-space: nowrap;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .nav-tag:hover, .nav-tag.active {
+      background: var(--main-red);
+      color: white;
+      border-color: var(--main-red);
+      box-shadow: 0 0 15px var(--red-glow);
+    }
+
+    main {
+      width: min(560px, 92vw);
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .menu-section {
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-left: 4px;
+    }
+
+    .section-header::before {
+      content: "";
+      width: 4px;
+      height: 20px;
+      background: var(--main-red);
+      border-radius: 2px;
+      box-shadow: 0 0 8px var(--red-glow);
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .menu-item {
+      background: var(--card-gray);
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .menu-item:hover {
+      background: #222;
+      border-color: var(--main-red);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+    }
+
+    .item-icon-box {
+      width: 48px;
+      height: 48px;
+      background: #fff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .item-icon-box img { width: 70%; height: 70%; object-fit: contain; }
+    .item-info { display: flex; flex-direction: column; gap: 2px; }
+    .item-name { font-size: 14px; font-weight: 600; color: var(--text-white); }
+    .item-action { font-size: 11px; color: var(--main-red); font-weight: 700; }
+
+    .notice-box {
+      background: rgba(227, 29, 26, 0.08);
+      border: 1px dashed rgba(227, 29, 26, 0.4);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 13px;
+      color: #ccc;
+      line-height: 1.7;
+    }
+
+    .showcase-card {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #2a2a2a;
+      background-color: #000;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .carousel-wrap {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .carousel-slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      z-index: 1;
+    }
+    .carousel-slide.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid #555;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 24px;
+      line-height: 34px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 3;
+      transition: all 0.3s;
+      backdrop-filter: blur(3px);
+    }
+    .carousel-btn:hover {
+      background: var(--main-red);
+      border-color: var(--main-red);
+      box-shadow: 0 0 10px var(--red-glow);
+    }
+    .carousel-btn.prev { left: 10px; }
+    .carousel-btn.next { right: 10px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 3;
+    }
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,255,0.3);
+      border: 1px solid #888;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .carousel-dot:hover {
+      background: #fff;
+    }
+    .carousel-dot.active {
+      background: var(--main-red);
+      border-color: var(--main-red);
+      box-shadow: 0 0 8px var(--red-glow);
+      transform: scale(1.2);
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 11px;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 400px) {
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .item-icon-box { width: 42px; height: 42px; }
+      .item-name { font-size: 12px; }
+    }
+
+    /* 返回顶部按钮 - 始终可见版 */
+    #backToTop {
+        display: flex !important;
+        position: fixed !important;
+        bottom: 30px !important;
+        right: 30px !important;
+        z-index: 99999 !important;
+        width: auto !important;
+        height: 50px !important;
+        padding: 0 20px !important;
+        background: #e31d1a !important; /* 使用 indexcopy2 的主色调 */
+        color: #ffffff !important;
+        border: 2px solid #ffffff !important;
+        border-radius: 25px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        gap: 8px !important;
+    }
+    @media (max-width: 768px) {
+        #backToTop { bottom: 20px !important; right: 20px !important; height: 45px !important; padding: 0 15px !important; font-size: 14px !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand-banner" style="margin: 0 auto;">
+      <img src="bt2.jpg" alt="石火电竞">
+    </div>
+  </header>
+
+  <!-- ✅ “点单须知”按钮已删除 -->
+  <div class="quick-nav">
+    <a href="#newGuest" class="nav-tag">新客体验单</a>
+    <a href="#pc" class="nav-tag">端游价格</a>
+    <a href="#mobile" class="nav-tag">手游价格</a>
+    <a href="#other" class="nav-tag">其它游戏</a>
+  </div>
+
+  <main>
+    <!-- “点单须知”板块依然存在，只是导航按钮没了 -->
+    <section class="menu-section" id="notice" style="animation-delay: 0.1s;">
+      <div class="section-header"><span class="section-title">点单须知</span></div>
+      <div class="notice-box" id="noticeContent"></div>
+    </section>
+    
+    <section class="menu-section" id="newGuest" style="animation-delay: 0.2s;">
+      <div class="section-header"><span class="section-title">新客体验单</span></div>
+      <div class="notice-box" id="newGuestContent"></div>
+    </section>
+
+    <section class="menu-section" id="pc" style="animation-delay: 0.3s;">
+      <div class="section-header"><span class="section-title">三角洲端游价格表</span></div>
+      <div class="menu-grid" id="pcGrid"></div>
+    </section>
+    <section class="menu-section" id="mobile" style="animation-delay: 0.4s;">
+      <div class="section-header"><span class="section-title">三角洲手游价格表</span></div>
+      <div class="menu-grid" id="mobileGrid"></div>
+    </section>
+    <section class="menu-section" id="other" style="animation-delay: 0.5s;">
+      <div class="section-header"><span class="section-title">其它游戏板块</span></div>
+      <div class="menu-grid" id="otherGrid"></div>
+    </section>
+    <section class="menu-section" style="animation-delay: 0.6s;">
+      <div class="section-header">
+        <span class="section-title">部分价格展示</span>
+      </div>
+      <div class="showcase-card">
+        <div class="carousel-wrap" id="carousel"></div>
+      </div>
+    </section>
+    <section class="menu-section" style="animation-delay: 0.7s;">
+      <div class="section-header"><span class="section-title">文字说明</span></div>
+      <div class="notice-box" id="footerDesc" style="background: transparent; border-style: solid;"></div>
+    </section>
+  </main>
+
+  <footer>—— 最终解释权归石火电竞所有 ——</footer>
+
+  <script>
+    const pcData = [
+      { name:"基础护航单", url:"jcdy.html", image:"tb.png" },
+      { name:"石火麻将单", url:"mjdy.html", image:"tb.png" },
+      { name:"趣味单合集", url:"qwdy.html", image:"tb.png" },
+      { name:"石火随机单", url:"https://sr-dj.github.io/sjbingo/", image:"tb.png" },
+      { name:"任务纯币代肝", url:"rwcbdy.html", image:"tb.png" },
+    ];
+
+    const mobileData = [
+      { name:"基础护航单", url:"jcsy.html", image:"tb.png" },
+      { name:"石火麻将单", url:"mjsy.html", image:"tb.png" },
+      { name:"趣味单合集", url:"qwsy.html", image:"tb.png" },
+      { name:"石火随机单", url:"https://sr-dj.github.io/sjbingo/", image:"tb.png" },
+    ];
+
+    const otherData = [
+      { name:"英雄联盟", url:"lol.html", image:"tb.png" },
+      { name:"金铲铲之战", url:"jcczz.html", image:"tb.png" },
+      { name:"无畏契约", url:"wwqy.html", image:"tb.png" },
+    ];
+
+    const bannerData = [
+      { image: "banner1.png", link: "#" }, { image: "banner2.png", link: "#" },
+      { image: "banner3.png", link: "#" }, { image: "banner4.png", link: "#" },
+      { image: "banner5.png", link: "#" }, { image: "banner6.png", link: "#" },
+      { image: "banner7.png", link: "#" }, { image: "banner8.png", link: "#" }
+    ];
+
+    function renderMenu(id, data ) {
+      const container = document.getElementById(id);
+      if(!container) return;
+      container.innerHTML = data.map(item => `
+        <a href="${item.url || '#'}" class="menu-item" target="_blank">
+          <div class="item-icon-box"><img src="${item.image}" alt="${item.name}"></div>
+          <div class="item-info">
+            <span class="item-name">${item.name}</span>
+            <span class="item-action">点击查看详情 ></span>
+          </div>
+        </a>`).join('');
+    }
+
+    function initCarousel() {
+      const container = document.getElementById('carousel');
+      if (!container || !bannerData || bannerData.length === 0) return;
+      container.innerHTML = `
+        ${bannerData.map((item, index) => `<a href="${item.link || '#'}" class="carousel-slide ${index === 0 ? 'active' : ''}" data-index="${index}" target="_blank"><img src="${item.image}" alt="Banner ${index + 1}"></a>`).join('')}
+        <button class="carousel-btn prev">&lt;</button>
+        <button class="carousel-btn next">&gt;</button>
+        <div class="carousel-dots">${bannerData.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`).join('')}</div>`;
+      const slides = container.querySelectorAll('.carousel-slide');
+      const dots = container.querySelectorAll('.carousel-dot');
+      const prevBtn = container.querySelector('.carousel-btn.prev');
+      const nextBtn = container.querySelector('.carousel-btn.next');
+      let currentIndex = 0;
+      let autoPlayInterval = null;
+      function goToSlide(index) {
+        slides[currentIndex].classList.remove('active');
+        dots[currentIndex].classList.remove('active');
+        currentIndex = index;
+        slides[currentIndex].classList.add('active');
+        dots[currentIndex].classList.add('active');
+      }
+      function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayInterval = setInterval(() => {
+          const nextIndex = (currentIndex + 1) % slides.length;
+          goToSlide(nextIndex);
+        }, 4000);
+      }
+      function stopAutoPlay() { clearInterval(autoPlayInterval); }
+      prevBtn.addEventListener('click', () => { const prevIndex = (currentIndex - 1 + slides.length) % slides.length; goToSlide(prevIndex); });
+      nextBtn.addEventListener('click', () => { const nextIndex = (currentIndex + 1) % slides.length; goToSlide(nextIndex); });
+      dots.forEach(dot => { dot.addEventListener('click', (e) => { goToSlide(parseInt(e.target.dataset.index)); }); });
+      container.addEventListener('mouseenter', stopAutoPlay);
+      container.addEventListener('mouseleave', startAutoPlay);
+      [prevBtn, nextBtn, ...dots].forEach(el => { el.addEventListener('click', () => { stopAutoPlay(); startAutoPlay(); }); });
+      let touchStartX = 0;
+      container.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; stopAutoPlay(); }, { passive: true });
+      container.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const deltaX = touchEndX - startX;
+        if (Math.abs(deltaX) > 50) { deltaX > 0 ? prevBtn.click() : nextBtn.click(); }
+        startAutoPlay();
+      }, { passive: true });
+      startAutoPlay();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMenu('pcGrid', pcData);
+      renderMenu('mobileGrid', mobileData);
+      renderMenu('otherGrid', otherData);
+      initCarousel();
+    });
+  </script>
+  <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ 返回顶部</button>
+</body>
+</html>
