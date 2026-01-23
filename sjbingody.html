@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随机bingo单 | 端游</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+            color: #fff;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; 
+            min-height: 100vh;
+            background-image: url('bg2.jpg'); background-attachment: fixed; background-size: cover; background-position: center;
+        }
+
+        h1 {
+            margin: 20px 0 25px;
+            font-size: 42px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-align: center;
+            background: linear-gradient(90deg, #ff0000, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            font-weight: 800;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff0000, transparent);
+        }
+
+        .images-container { display: flex; justify-content: center; width: 100%; max-width: 1200px; padding: 0 20px; box-sizing: border-box; margin-bottom: 40px; }
+
+        .image-item { display: none; width: 100%; max-width: 450px; flex-direction: column; align-items: center; position: relative; }
+
+        @media (max-width: 768px) {
+            .image-item { display: none; width: 100%; max-width: 450px; flex-direction: column; align-items: center; position: relative; }
+            h1 {
+                font-size: 32px;
+                margin-top: 15px;
+            }
+        }
+
+        .image-title {
+            padding: 12px 24px;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 2px solid #b40000;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            min-width: 180px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            border: 3px solid #b40000;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            background: #111;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            /* 关键：将 align-items 从 center 改为 flex-start，使图片靠顶对齐 */
+            align-items: flex-start; 
+            justify-content: center;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            /* 关键：高度设为 auto 配合 flex-start 实现靠顶展示完整内容 */
+            height: auto; 
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .image-item:hover .image-wrapper img {
+            transform: scale(1.05);
+        }
+
+        /* 模态框样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .modal-image-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-image {
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            transform-origin: center center;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            cursor: grab;
+            transition: transform 0.2s ease-out;
+            will-change: transform;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        
+        .modal-image.no-transition {
+            transition: none !important;
+        }
+        
+        .modal-image.dragging {
+            cursor: grabbing;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 0, 0, 0.8);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1010;
+        }
+        
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none;
+            z-index: 1005;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        
+        .modal-prev,
+        .modal-next {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 0, 0, 0.6);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .zoom-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 16px;
+            border-radius: 30px;
+            z-index: 1010;
+            align-items: center;
+        }
+        
+        .zoom-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .zoom-display {
+            color: white;
+            font-size: 13px;
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+        }
+    
+        /* 顶部按钮容器 */
+        .tab-container { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 1200px; padding: 0 20px; box-sizing: border-box; }
+
+        
+        .tab-btn {
+            flex: 0 1 200px; /* 设置固定基础宽度，允许缩小 */
+            padding: 12px 10px;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 2px solid #b40000;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            outline: none;
+            white-space: nowrap; /* 防止文字换行 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    
+
+        .tab-btn:hover {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border-color: #ff0000;
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(145deg, #b40000, #800000);
+            border-color: #ff4d4d;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .image-item {
+            display: none; /* 默认隐藏 */
+            width: 100%;
+            max-width: 450px;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .image-item.active {
+            display: flex; /* 只显示激活的图片项 */
+        }
+    
+    
+        
+
+        #backToTop:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(180, 0, 0, 0.6);
+            background: linear-gradient(145deg, #d40000, #a00000);
+        }
+
+        
+    
+    
+        
+
+        #backToTop:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 6px 20px rgba(180, 0, 0, 0.6) !important;
+        }
+
+        
+    
+    
+        /* 返回顶部按钮 - 始终可见版 */
+        
+        #backToTop {
+            display: flex !important;
+            position: fixed !important;
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 99999 !important;
+            width: auto !important; /* 宽度自适应文字 */
+            height: 50px !important;
+            padding: 0 20px !important; /* 添加左右内边距 */
+            background: #b40000 !important;
+            color: #ffffff !important;
+            border: 2px solid #ffffff !important;
+            border-radius: 25px !important; /* 圆角矩形 */
+            font-size: 16px !important; /* 调整字号 */
+            font-weight: bold !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-decoration: none !important;
+            gap: 8px !important; /* 图标和文字间距 */
+        }
+    
+        @media (max-width: 768px) {
+            
+        #backToTop {
+            display: flex !important;
+            position: fixed !important;
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 99999 !important;
+            width: auto !important; /* 宽度自适应文字 */
+            height: 50px !important;
+            padding: 0 20px !important; /* 添加左右内边距 */
+            background: #b40000 !important;
+            color: #ffffff !important;
+            border: 2px solid #ffffff !important;
+            border-radius: 25px !important; /* 圆角矩形 */
+            font-size: 16px !important; /* 调整字号 */
+            font-weight: bold !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-decoration: none !important;
+            gap: 8px !important; /* 图标和文字间距 */
+        }
+    
+        }
+    
+    </style>
+</head>
+<body>
+
+    <h1>随机bingo单</h1>
+    
+
+    
+    <div class="images-container">
+        <div class="image-item active">
+            
+            <div class="image-wrapper" data-image="端游/基础护航单/1.jpg">
+                <img src="端游\随机bingo单\1.jpg" alt="随机bingo单">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-nav">
+                <button class="modal-prev" id="modalPrev">‹</button>
+                <button class="modal-next" id="modalNext">›</button>
+            </div>
+            <div class="modal-image-container" id="modalImageContainer">
+                <img class="modal-image" id="modalImage" src="" alt="">
+            </div>
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoomOut">-</button>
+                <div class="zoom-display" id="zoomDisplay">100%</div>
+                <button class="zoom-btn" id="zoomIn">+</button>
+                <button class="zoom-btn" id="resetZoom">↺</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const imageItems = document.querySelectorAll('.image-item');
+        const imageWrappers = document.querySelectorAll('.image-wrapper');
+        
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalImage = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalNext = document.getElementById('modalNext');
+        const modalImageContainer = document.getElementById('modalImageContainer');
+        const zoomInBtn = document.getElementById('zoomIn');
+        const zoomOutBtn = document.getElementById('zoomOut');
+        const resetZoomBtn = document.getElementById('resetZoom');
+        const zoomDisplay = document.getElementById('zoomDisplay');
+        
+        const imagePaths = Array.from(imageWrappers).map(w => w.getAttribute('data-image'));
+        let currentImageIndex = 0;
+        
+        let scale = 1;
+        let translateX = 0;
+        let translateY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        function switchImage(index) {
+            currentImageIndex = index;
+            tabBtns.forEach((btn, i) => btn.classList.toggle('active', i === index));
+            imageItems.forEach((item, i) => item.classList.toggle('active', i === index));
+        }
+
+        tabBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => switchImage(index));
+        });
+
+        imageWrappers.forEach((wrapper, index) => {
+            wrapper.addEventListener('click', () => openModal(imagePaths[index], index));
+        });
+
+        function openModal(imagePath, index) {
+            currentImageIndex = index;
+            modalImage.src = imagePath;
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            resetZoom();
+        }
+        
+        function resetZoom() {
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            modalImage.classList.add('no-transition');
+            updateTransform();
+        }
+        
+        function updateTransform() {
+            modalImage.style.transform = `translate(calc(-50% + ${translateX}px), calc(-50% + ${translateY}px)) scale(${scale})`;
+            zoomDisplay.textContent = `${Math.round(scale * 100)}%`;
+        }
+        
+        function zoomToPoint(newScale, pointX, pointY) {
+            const minScale = 0.5, maxScale = 5;
+            newScale = Math.max(minScale, Math.min(maxScale, newScale));
+            if (newScale === scale) return;
+            modalImage.classList.remove('no-transition');
+            const rect = modalImageContainer.getBoundingClientRect();
+            if (pointX === undefined || pointY === undefined) {
+                pointX = rect.width / 2;
+                pointY = rect.height / 2;
+            }
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const ratio = newScale / scale;
+            translateX = pointX - (pointX - translateX - centerX) * ratio - centerX;
+            translateY = pointY - (pointY - translateY - centerY) * ratio - centerY;
+            scale = newScale;
+            updateTransform();
+        }
+
+        zoomInBtn.addEventListener('click', () => zoomToPoint(scale + 0.25));
+        zoomOutBtn.addEventListener('click', () => zoomToPoint(scale - 0.25));
+        resetZoomBtn.addEventListener('click', resetZoom);
+        
+        modalImageContainer.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const rect = modalImageContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            modalImage.classList.add('no-transition');
+            zoomToPoint(e.deltaY < 0 ? scale + 0.25 : scale - 0.25, x, y);
+        }, { passive: false });
+        
+        modalImage.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
+            isDragging = true;
+            modalImage.classList.add('no-transition');
+            modalImage.classList.add('dragging');
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            e.preventDefault();
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            modalImage.classList.remove('dragging');
+        });
+
+        modalImageContainer.addEventListener('touchstart', (e) => {
+            modalImage.classList.add('no-transition');
+            if (e.touches.length === 1) {
+                isDragging = true;
+                startX = e.touches[0].clientX - translateX;
+                startY = e.touches[0].clientY - translateY;
+            } else if (e.touches.length === 2) {
+                isDragging = false;
+                initialDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                initialScale = scale;
+            }
+        }, { passive: false });
+
+        modalImageContainer.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (isDragging && e.touches.length === 1) {
+                translateX = e.touches[0].clientX - startX;
+                translateY = e.touches[0].clientY - startY;
+                updateTransform();
+            } else if (e.touches.length === 2) {
+                const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                const rect = modalImageContainer.getBoundingClientRect();
+                const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+                const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+                zoomToPoint(initialScale * (dist / initialDist), centerX, centerY);
+            }
+        }, { passive: false });
+
+        window.addEventListener('touchend', () => isDragging = false);
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay || e.target === modalImageContainer) closeModal(); });
+        
+        modalPrev.addEventListener('click', () => {
+            let newIndex = (currentImageIndex - 1 + imagePaths.length) % imagePaths.length;
+            modalImage.src = imagePaths[newIndex];
+            switchImage(newIndex);
+            resetZoom();
+        });
+
+        modalNext.addEventListener('click', () => {
+            let newIndex = (currentImageIndex + 1) % imagePaths.length;
+            modalImage.src = imagePaths[newIndex];
+            switchImage(newIndex);
+            resetZoom();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!modalOverlay.classList.contains('active')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') modalPrev.click();
+            if (e.key === 'ArrowRight') modalNext.click();
+        });
+    </script>
+    
+
+    
+
+    
+
+    
+
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ 返回顶部</button>
+</body>
+</html>

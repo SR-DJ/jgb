@@ -74,37 +74,7 @@
 
     .brand-banner img { width: 100%; height: auto; display: block; }
 
-    .quick-nav {
-      width: min(560px, 92vw);
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 20px;
-      gap: 10px;
-      overflow-x: auto;
-      padding: 5px;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    .quick-nav::-webkit-scrollbar { display: none; }
 
-    .nav-tag {
-      padding: 8px 20px;
-      background: var(--card-gray);
-      border: 1px solid #333;
-      border-radius: 20px;
-      font-size: 13px;
-      color: var(--text-dim);
-      white-space: nowrap;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-
-    .nav-tag:hover, .nav-tag.active {
-      background: var(--main-red);
-      color: white;
-      border-color: var(--main-red);
-      box-shadow: 0 0 15px var(--red-glow);
-    }
 
     main {
       width: min(560px, 92vw);
@@ -196,6 +166,44 @@
       font-size: 13px;
       color: #ccc;
       line-height: 1.7;
+    }
+
+    /* 可点击的点单须知卡片样式 */
+    .clickable-notice-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .clickable-notice-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .clickable-notice-card:hover .notice-box {
+      background: rgba(227, 29, 26, 0.15);
+      border-color: var(--main-red);
+      box-shadow: 0 8px 20px var(--red-glow), inset 0 0 20px rgba(227, 29, 26, 0.1);
+    }
+
+    .clickable-notice-card:hover .section-title {
+      color: var(--main-red);
+      text-shadow: 0 0 10px var(--red-glow);
+    }
+
+    .notice-hint {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 12px;
+      color: var(--main-red);
+      font-weight: 700;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .clickable-notice-card:hover .notice-hint {
+      opacity: 1;
     }
 
     .showcase-card {
@@ -337,20 +345,14 @@
     </div>
   </header>
 
-  <!-- ✅ “点单须知”按钮已删除 -->
-  <div class="quick-nav">
-    <a href="#newGuest" class="nav-tag">新客体验单</a>
-    <a href="#pc" class="nav-tag">端游价格</a>
-    <a href="#mobile" class="nav-tag">手游价格</a>
-    <a href="#other" class="nav-tag">其它游戏</a>
-  </div>
+
 
   <main>
-    <!-- “点单须知”板块依然存在，只是导航按钮没了 -->
-    <section class="menu-section" id="notice" style="animation-delay: 0.1s;">
-      <div class="section-header"><span class="section-title">点单须知</span></div>
+    <!-- 点单须知 - 可点击卡片 -->
+    <a href="notice.html" class="clickable-notice-card menu-section" id="notice" style="animation-delay: 0.1s;">
+      <div class="section-header"><span class="section-title">点单须知<span class="notice-hint">→ 查看详情</span></span></div>
       <div class="notice-box" id="noticeContent"></div>
-    </section>
+    </a>
     
     <section class="menu-section" id="newGuest" style="animation-delay: 0.2s;">
       <div class="section-header"><span class="section-title">新客体验单</span></div>
@@ -390,7 +392,7 @@
       { name:"基础护航单", url:"jcdy.html", image:"tb.png" },
       { name:"石火麻将单", url:"mjdy.html", image:"tb.png" },
       { name:"趣味单合集", url:"qwdy.html", image:"tb.png" },
-      { name:"石火随机单", url:"https://sr-dj.github.io/sjbingo/", image:"tb.png" },
+      { name:"石火随机单", url:"sjbingody.html", image:"tb.png" },
       { name:"任务纯币代肝", url:"rwcbdy.html", image:"tb.png" },
     ];
 
@@ -398,13 +400,13 @@
       { name:"基础护航单", url:"jcsy.html", image:"tb.png" },
       { name:"石火麻将单", url:"mjsy.html", image:"tb.png" },
       { name:"趣味单合集", url:"qwsy.html", image:"tb.png" },
-      { name:"石火随机单", url:"https://sr-dj.github.io/sjbingo/", image:"tb.png" },
+      { name:"石火随机单", url:"sjbingosy.html", image:"tb.png" },
     ];
 
     const otherData = [
-      { name:"英雄联盟", url:"lol.html", image:"tb.png" },
-      { name:"金铲铲之战", url:"jcczz.html", image:"tb.png" },
-      { name:"无畏契约", url:"wwqy.html", image:"tb.png" },
+      { name:"敬请期待", url:"lol.html", image:"tb.png" },
+      // { name:"金铲铲之战", url:"jcczz.html", image:"tb.png" },
+      // { name:"无畏契约", url:"wwqy.html", image:"tb.png" },
     ];
 
     const bannerData = [
