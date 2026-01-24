@@ -356,7 +356,9 @@
     
     <section class="menu-section" id="newGuest" style="animation-delay: 0.2s;">
       <div class="section-header"><span class="section-title">新客体验单</span></div>
-      <div class="notice-box" id="newGuestContent"></div>
+      <div class="notice-box" id="newGuestContent" style="padding: 0; overflow: hidden; border: none; background: transparent;">
+        <img src="xkty.jpg" alt="新客体验单" style="width: 100%; display: block; border-radius: 12px;">
+      </div>
     </section>
 
     <section class="menu-section" style="animation-delay: 0.25s;">
@@ -405,7 +407,7 @@
     ];
 
     const otherData = [
-      { name:"英雄联盟", url:".html", image:"tb.png" },
+      { name:"英雄联盟", url:"lol.html", image:"tb.png" },
       { name:"无畏契约", url:"wwqy.html", image:"tb.png" },
       { name:"逆战未来", url:"nzwl.html", image:"tb.png" },
     ];
@@ -456,7 +458,7 @@
         autoPlayInterval = setInterval(() => {
           const nextIndex = (currentIndex + 1) % slides.length;
           goToSlide(nextIndex);
-        }, 3000); // 这里控制翻页速度，3000表示3秒，数值越小翻页越快
+        }, 2000); // 这里控制翻页速度，2000表示2秒，数值越小翻页越快
       }
       function stopAutoPlay() { clearInterval(autoPlayInterval); }
       prevBtn.addEventListener('click', () => { const prevIndex = (currentIndex - 1 + slides.length) % slides.length; goToSlide(prevIndex); });
