@@ -608,7 +608,16 @@
     }
 
     function openWeapp() {
-      alert('微信小程序功能待实现');
+      const targetUrl = 'https://taix.cn/plugins/mobile/h5/mall/5489/?#/pages/index/index';
+      const wechatUrl = 'weixin://dl/business/?t=' + encodeURIComponent(targetUrl);
+      
+      // 尝试打开微信
+      window.location.href = wechatUrl;
+      
+      // 如果微信没有安装，则直接打开链接
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 1500);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
