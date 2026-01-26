@@ -309,31 +309,151 @@
       .item-name { font-size: 12px; }
     }
 
-    /* 返回顶部按钮 - 始终可见版 */
+    /* 底部工具栏容器 */
+    .bottom-toolbar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99999;
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    /* 返回顶部按钮 */
     #backToTop {
         display: flex !important;
-        position: fixed !important;
-        bottom: 30px !important;
-        right: 30px !important;
-        z-index: 99999 !important;
-        width: auto !important;
-        height: 50px !important;
-        padding: 0 20px !important;
-        background: #e31d1a !important; /* 使用 indexcopy2 的主色调 */
+        height: 44px !important;
+        padding: 0 16px !important;
+        background: #e31d1a !important;
         color: #ffffff !important;
         border: 2px solid #ffffff !important;
-        border-radius: 25px !important;
-        font-size: 16px !important;
+        border-radius: 22px !important;
+        font-size: 14px !important;
         font-weight: bold !important;
         cursor: pointer !important;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
         align-items: center !important;
         justify-content: center !important;
         text-decoration: none !important;
-        gap: 8px !important;
+        gap: 6px !important;
+        transition: all 0.3s !important;
+        white-space: nowrap !important;
     }
+    #backToTop:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 20px rgba(227, 29, 26, 0.6) !important;
+    }
+
+    /* 右下角品牌信息 */
+    .brand-info {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 204, 0, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+      text-align: right;
+      min-width: 140px;
+    }
+
+    .brand-info .highlight {
+      color: #ffcc00;
+      font-weight: bold;
+      margin-left: 3px;
+    }
+    
+    .brand-info .weapp-btn {
+      margin-top: 8px;
+      background: linear-gradient(135deg, #8b0000, #cc0000);
+      color: #fff;
+      border: 1px solid #ffcc00;
+      padding: 6px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.3s;
+      width: 100%;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    .brand-info .weapp-btn:hover {
+      background: linear-gradient(135deg, #cc0000, #ff3333);
+      border-color: #ffdd44;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(255, 0, 0, 0.3);
+    }
+    
+    .brand-info .weapp-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    .brand-info .weapp-icon {
+      font-size: 12px;
+    }
+
+    /* 移动端优化 */
     @media (max-width: 768px) {
-        #backToTop { bottom: 20px !important; right: 20px !important; height: 45px !important; padding: 0 15px !important; font-size: 14px !important; }
+      .bottom-toolbar {
+        bottom: 15px;
+        right: 15px;
+        gap: 10px;
+      }
+      
+      #backToTop {
+        height: 40px !important;
+        padding: 0 14px !important;
+        font-size: 12px !important;
+      }
+      
+      .brand-info {
+        padding: 8px 10px;
+        font-size: 10px;
+        min-width: 130px;
+      }
+      
+      .brand-info .weapp-btn {
+        padding: 5px 8px;
+        font-size: 10px;
+        margin-top: 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .bottom-toolbar {
+        bottom: 12px;
+        right: 12px;
+        gap: 8px;
+      }
+      
+      #backToTop {
+        height: 38px !important;
+        padding: 0 12px !important;
+        font-size: 11px !important;
+      }
+      
+      .brand-info {
+        padding: 7px 9px;
+        font-size: 9px;
+        min-width: 120px;
+      }
+      
+      .brand-info .weapp-btn {
+        padding: 4px 7px;
+        font-size: 9px;
+        margin-top: 5px;
+      }
     }
   </style>
 </head>
@@ -356,19 +476,19 @@
     
     <section class="menu-section" id="newGuest" style="animation-delay: 0.2s;">
       <div class="section-header"><span class="section-title">新客体验单</span></div>
-      <div class="notice-box" id="newGuestContent" style="padding: 0; overflow: hidden; border: none; background: transparent;">
-        <img src="xkty.jpg" alt="新客体验单" style="width: 100%; display: block; border-radius: 12px;">
-      </div>
+      <div class="menu-grid" id="newGuestGrid"></div>
     </section>
 
+    <!-- 最新活动 - 已注释
     <section class="menu-section" style="animation-delay: 0.25s;">
       <div class="section-header">
-        <span class="section-title">最近活动</span>
+        <span class="section-title">最新活动</span>
       </div>
       <div class="showcase-card">
         <div class="carousel-wrap" id="carousel"></div>
       </div>
     </section>
+    -->
 
     <section class="menu-section" id="pc" style="animation-delay: 0.3s;">
       <div class="section-header"><span class="section-title">三角洲端游价格表</span></div>
@@ -382,21 +502,30 @@
       <div class="section-header"><span class="section-title">其它游戏板块</span></div>
       <div class="menu-grid" id="otherGrid"></div>
     </section>
-    <section class="menu-section" style="animation-delay: 0.6s;">
+    <!-- <section class="menu-section" style="animation-delay: 0.6s;">
       <div class="section-header"><span class="section-title">文字说明</span></div>
       <div class="notice-box" id="footerDesc" style="background: transparent; border-style: solid;"></div>
-    </section>
+    </section> -->
   </main>
 
   <footer>—— 最终解释权归石火电竞所有 ——</footer>
 
   <script>
+    const newGuestData = [
+      { name:"护航体验单 - 端游", url:"hhtydy.html", image:"tb.png" },
+      { name:"陪玩体验单 - 端游", url:"pwtydy.html", image:"tb.png" },
+      { name:"护航体验单 - 手游", url:"hhtysy.html", image:"tb.png" },
+      { name:"陪玩体验单 - 手游", url:"pwtysy.html", image:"tb.png" },
+    ];
+
     const pcData = [
       { name:"基础护航单", url:"jcdy.html", image:"tb.png" },
       { name:"石火麻将单", url:"mjdy.html", image:"tb.png" },
       { name:"趣味单合集", url:"qwdy.html", image:"tb.png" },
       { name:"石火随机单", url:"sjbingody.html", image:"tb.png" },
       { name:"任务纯币代肝", url:"rwcbdy.html", image:"tb.png" },
+      { name:"石火电竞售后标准", url:"shbz.html", image:"tb.png" },
+      { name:"vip预存福利表", url:"vip.html", image:"tb.png" },
     ];
 
     const mobileData = [
@@ -478,13 +607,35 @@
       startAutoPlay();
     }
 
+    function openWeapp() {
+      alert('微信小程序功能待实现');
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+      renderMenu('newGuestGrid', newGuestData);
       renderMenu('pcGrid', pcData);
       renderMenu('mobileGrid', mobileData);
       renderMenu('otherGrid', otherData);
       initCarousel();
     });
   </script>
-  <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ 返回顶部</button>
+  <!-- 底部工具栏 -->
+  <div class="bottom-toolbar">
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ 返回顶部</button>
+    <!-- 右下角品牌信息 -->
+    <div class="brand-info">
+      <div class="kook">
+        🎧 KOOK：<span class="highlight">6480</span>
+      </div>
+      <div class="mini-program">
+        📱 服务号/小程序: <span class="highlight">石火电竞</span>
+      </div>
+      <button class="weapp-btn" onclick="openWeapp()">
+        <span class="weapp-icon">📱</span>
+        <span>打开小程序</span>
+      </button>
+    </div>
+  </div>
 </body>
 </html>
