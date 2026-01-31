@@ -252,20 +252,12 @@
         }
     
         /* 顶部按钮容器 */
-        .tab-container {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            max-width: 1200px;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
+        .tab-container { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 1200px; padding: 0 20px; box-sizing: border-box; }
 
+        
         .tab-btn {
-            flex: 0 1 calc(25% - 15px); /* 4个一行，减去间距 */
+            flex: 0 1 calc(25% - 15px); /* 电脑端 4 个一行 */
+            min-width: 120px;
             padding: 12px 10px;
             background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
             border: 2px solid #b40000;
@@ -278,16 +270,17 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             outline: none;
-            white-space: nowrap;
+            white-space: nowrap; /* 防止文字换行 */
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         @media (max-width: 768px) {
             .tab-btn {
-                flex: 0 1 calc(50% - 15px); /* 手机端2个一行 */
+                flex: 0 1 calc(50% - 10px); /* 手机端 2 个一行 */
             }
         }
+    
 
         .tab-btn:hover {
             background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
@@ -314,29 +307,16 @@
             display: flex; /* 只显示激活的图片项 */
         }
     
-    
-        
-
         #backToTop:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(180, 0, 0, 0.6);
             background: linear-gradient(145deg, #d40000, #a00000);
         }
-
-        
     
-    
-        
-
         #backToTop:hover {
             transform: translateY(-5px) !important;
             box-shadow: 0 6px 20px rgba(180, 0, 0, 0.6) !important;
         }
-
-        
-    
-    
-        /* 返回顶部按钮 - 始终可见版 */
         
         #backToTop {
             display: flex !important;
@@ -362,32 +342,29 @@
         }
     
         @media (max-width: 768px) {
-            
-        #backToTop {
-            display: flex !important;
-            position: fixed !important;
-            bottom: 30px !important;
-            right: 30px !important;
-            z-index: 99999 !important;
-            width: auto !important; /* 宽度自适应文字 */
-            height: 50px !important;
-            padding: 0 20px !important; /* 添加左右内边距 */
-            background: #b40000 !important;
-            color: #ffffff !important;
-            border: 2px solid #ffffff !important;
-            border-radius: 25px !important; /* 圆角矩形 */
-            font-size: 16px !important; /* 调整字号 */
-            font-weight: bold !important;
-            cursor: pointer !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
-            align-items: center !important;
-            justify-content: center !important;
-            text-decoration: none !important;
-            gap: 8px !important; /* 图标和文字间距 */
+            #backToTop {
+                display: flex !important;
+                position: fixed !important;
+                bottom: 30px !important;
+                right: 30px !important;
+                z-index: 99999 !important;
+                width: auto !important; /* 宽度自适应文字 */
+                height: 50px !important;
+                padding: 0 20px !important; /* 添加左右内边距 */
+                background: #b40000 !important;
+                color: #ffffff !important;
+                border: 2px solid #ffffff !important;
+                border-radius: 25px !important; /* 圆角矩形 */
+                font-size: 16px !important; /* 调整字号 */
+                font-weight: bold !important;
+                cursor: pointer !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-decoration: none !important;
+                gap: 8px !important; /* 图标和文字间距 */
+            }
         }
-    
-        }
-    
     </style>
 </head>
 <body>
@@ -403,12 +380,12 @@
         <button class="tab-btn" data-index="5">填填乐</button>
         <button class="tab-btn" data-index="6">骰子</button>
         <button class="tab-btn" data-index="7">消消乐</button>
+        <button class="tab-btn" data-index="8">勇敢者行动</button>
     </div>
     
     <div class="images-container">
         <!-- 1 -->
         <div class="image-item active">
-            
             <div class="image-wrapper" data-image="手游/趣味单合集/1.jpg">
                 <img src="手游/趣味单合集/1.jpg" alt="指定玩法单">
             </div>
@@ -416,7 +393,6 @@
         
         <!-- 2 -->
         <div class="image-item">
-            
             <div class="image-wrapper" data-image="手游/趣味单合集/2.jpg">
                 <img src="手游/趣味单合集/2.jpg" alt="曼波单">
             </div>
@@ -424,7 +400,6 @@
         
         <!-- 3 -->
         <div class="image-item">
-            
             <div class="image-wrapper" data-image="手游/趣味单合集/3.jpg">
                 <img src="手游/趣味单合集/3.jpg" alt="指定监狱玩法单">
             </div>
@@ -432,7 +407,6 @@
 
         <!-- 4 -->
         <div class="image-item">
-            
             <div class="image-wrapper" data-image="手游/趣味单合集/4.jpg">
                 <img src="手游/趣味单合集/4.jpg" alt="创意玩法单">
             </div>
@@ -440,7 +414,6 @@
 
         <!-- 5 -->
         <div class="image-item">
-            
             <div class="image-wrapper" data-image="手游/趣味单合集/5.jpg">
                 <img src="手游/趣味单合集/5.jpg" alt="大小红牛牛">
             </div>
@@ -448,7 +421,6 @@
 
         <!-- 6 -->
         <div class="image-item">
-            
             <div class="image-wrapper" data-image="手游/趣味单合集/6.jpg">
                 <img src="手游/趣味单合集/6.jpg" alt="填填乐">
             </div>
@@ -456,7 +428,6 @@
 
         <!-- 7 -->
         <div class="image-item">
-            
             <div class="image-wrapper" data-image="手游/趣味单合集/7.jpg">
                 <img src="手游/趣味单合集/7.jpg" alt="骰子">
             </div>
@@ -464,9 +435,15 @@
 
         <!-- 8 -->
         <div class="image-item">
-            
             <div class="image-wrapper" data-image="手游/趣味单合集/8.jpg">
                 <img src="手游/趣味单合集/8.jpg" alt="消消乐">
+            </div>
+        </div>
+
+        <!-- 9 (已修正) -->
+        <div class="image-item">
+            <div class="image-wrapper" data-image="手游/趣味单合集/9.jpg">
+                <img src="手游/趣味单合集/9.jpg" alt="勇敢者行动">
             </div>
         </div>
     </div>
@@ -489,7 +466,6 @@
             </div>
         </div>
     </div>
-
     
     <script>
         const tabBtns = document.querySelectorAll('.tab-btn');
@@ -645,16 +621,14 @@
         
         modalPrev.addEventListener('click', () => {
             let newIndex = (currentImageIndex - 1 + imagePaths.length) % imagePaths.length;
-            modalImage.src = imagePaths[newIndex];
+            openModal(imagePaths[newIndex], newIndex);
             switchImage(newIndex);
-            resetZoom();
         });
 
         modalNext.addEventListener('click', () => {
             let newIndex = (currentImageIndex + 1) % imagePaths.length;
-            modalImage.src = imagePaths[newIndex];
+            openModal(imagePaths[newIndex], newIndex);
             switchImage(newIndex);
-            resetZoom();
         });
 
         document.addEventListener('keydown', (e) => {
@@ -665,13 +639,6 @@
         });
     </script>
     
-
-    
-
-    
-
-    
-
     <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ 返回顶部</button>
 </body>
 </html>
